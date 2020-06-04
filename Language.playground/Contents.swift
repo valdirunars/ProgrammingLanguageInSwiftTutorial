@@ -112,9 +112,9 @@ struct FunctionCall: Node {
         
         // Temporarily add parameters to global index
         try paramsAndValues.forEach { (name, node) in
-            guard identifiers[name] == nil else {
-                throw Parser.Error.alreadyDefined(name)
-            }
+//            guard identifiers[name] == nil else {
+//                throw Parser.Error.alreadyDefined(name)
+//            }
             identifiers[name] = .variable(value: try node.interpret())
         }
         print(paramsAndValues)
@@ -578,15 +578,17 @@ class Lexer {
     }
 }
 
+// Try changing the first parameter to sumOrA to 0 and back to 1
 var code = """
-function sumN(n, sum) {
-    if n {
-        sumN((n - 1), (sum + n))
+function sumOrA(condition, a, b) {
+    if condition {
+        a + b
+    } else {
+        a
     }
-    sum
 }
 
-sumN(5, 0)
+sumOrA(1, (5 + 4), (3 + 2 + 1))
 """
 
 let tokens = Lexer(code: code).tokens
